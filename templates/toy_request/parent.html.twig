@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ToyRequest - Validations des parents{% endblock %}
+
+{% block body %}
+
+    {% for label,messages in app.flashes(['success']) %}
+        {% for message in messages %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% for toy in toys %}
+        <div class="card">
+            <h2>{{ toy.name }}</h2>
+            <p>Demande de {{ toy.user.email }}</p>
+
+            {% if workflow_can(toy, 'to_dad_ok') %}
+                <a href="{{ path('app_change', {'id':toy.id, 'to':dad_ok}) }}"></a>
+            {% endif %}
+
+            {% if workflow_can(toy, 'to_mum_ok') %}
+                <a href="{{ path('app_change', {'id':toy.id, 'to':mum_ok}) }}"></a>
+            {% endif %}
+
+            {% if workflow_can(toy, 'to_order') %}
+                <a href="{{ path('app_change', {'id':toy.id, 'to':order}) }}"></a>
+            {% endif %}
+
+            {% if workflow_can(toy, 'to_ordered') %}
+                <a href="{{ path('app_change', {'id':toy.id, 'to':ordered}) }}"></a>
+            {% endif %}
+
+            {% if workflow_can(toy, 'to_received') %}
+                <a href="{{ path('app_change', {'id':toy.id, 'to':received}) }}"></a>
+            {% endif %}
+
+        </div>
+    {% endfor %}
+
+{% endblock %}
