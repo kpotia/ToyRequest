@@ -58,7 +58,7 @@ class ToyRequestController extends AbstractController
     }
 
     /**
-    * @Route('parent',name = 'app_parent')
+    * @Route("parent",name = "app_parent")
     */
     public function parent(ToyRequestRepository $toyRequestRepository): Response
     {
@@ -68,14 +68,14 @@ class ToyRequestController extends AbstractController
     }
 
     /**
-    * @Route('/Change/{id}/{to}', name='app_change')
+    * @Route("Change/{id}/{to}", name="app_change")
     */
     public function change(ToyRequest $toyRequest, string $to, EntityManagerInterface $entityManager): Response
     {
     	try {
     		$this->toyRequestWorkflow->apply($toyRequest, $to);
     	} catch (LogicException $exception) {
-    		
+    		dd($exception);
     	}
 
     	$entityManager->persist($toyRequest);

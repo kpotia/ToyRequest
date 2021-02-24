@@ -4,6 +4,7 @@
 
 {% block body %}
 
+    <h1>les requetes de jouets</h1>
     {% for label,messages in app.flashes(['success']) %}
         {% for message in messages %}
             <div class="alert alert-success">
@@ -11,33 +12,37 @@
             </div>
         {% endfor %}
     {% endfor %}
-
+<div class="row">
     {% for toy in toys %}
+        <div class="col-4">
         <div class="card">
+            <div class="card-body">
             <h2>{{ toy.name }}</h2>
             <p>Demande de {{ toy.user.email }}</p>
+            <p>{{ dump(workflow_transitions(toy)) }}</p>
 
             {% if workflow_can(toy, 'to_dad_ok') %}
-                <a href="{{ path('app_change', {'id':toy.id, 'to':dad_ok}) }}"></a>
+                <a class="btn btn-primary" href="{{ path('app_change', {'id':toy.id, 'to':'to_dad_ok'}) }}">Papa Valide</a>
             {% endif %}
 
             {% if workflow_can(toy, 'to_mum_ok') %}
-                <a href="{{ path('app_change', {'id':toy.id, 'to':mum_ok}) }}"></a>
+                <a class="btn btn-primary" href="{{ path('app_change', {'id':toy.id, 'to':'to_mum_ok'}) }}">Maman Valide</a>
             {% endif %}
 
             {% if workflow_can(toy, 'to_order') %}
-                <a href="{{ path('app_change', {'id':toy.id, 'to':order}) }}"></a>
+                <a class="btn btn-primary" href="{{ path('app_change', {'id':toy.id, 'to':'to_order'}) }}">Commander</a>
             {% endif %}
 
             {% if workflow_can(toy, 'to_ordered') %}
-                <a href="{{ path('app_change', {'id':toy.id, 'to':ordered}) }}"></a>
+                <a class="btn btn-primary" href="{{ path('app_change', {'id':toy.id, 'to':'to_ordered'}) }}"> la commande est en cour de livraison</a>
             {% endif %}
 
             {% if workflow_can(toy, 'to_received') %}
-                <a href="{{ path('app_change', {'id':toy.id, 'to':received}) }}"></a>
+                <a class="btn btn-primary" href="{{ path('app_change', {'id':toy.id, 'to':'to_received'}) }}"> confirm receiption</a>
             {% endif %}
-
+        </div></div>
         </div>
     {% endfor %}
+    </div>
 
 {% endblock %}
